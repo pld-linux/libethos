@@ -1,0 +1,16 @@
+--- configure.ac~	2010-04-23 14:20:31.931571417 +0300
++++ configure.ac	2010-04-23 14:22:56.972083840 +0300
+@@ -234,11 +234,11 @@
+ 	AC_MSG_RESULT([$PYGTK_DEFSDIR])
+ 
+ 	AC_MSG_CHECKING([for pygtk codegen])
+-	PYGTK_CODEGEN="$PYTHON `$PKG_CONFIG --variable=codegendir pygtk-2.0`/codegen.py"
++	PYGTK_CODEGEN="$PYTHON `$PKG_CONFIG --variable=codegendir pygtk-2.0`/codegen.pyc"
+ 	AC_MSG_RESULT([$PYGTK_CODEGEN])
+ 
+ 	AC_MSG_CHECKING([for pygtk h2def])
+-	PYGTK_H2DEF="$PYTHON `$PKG_CONFIG --variable=codegendir pygtk-2.0`/h2def.py"
++	PYGTK_H2DEF="$PYTHON `$PKG_CONFIG --variable=codegendir pygtk-2.0`/h2def.pyc"
+ 	AC_MSG_RESULT([$PYGTK_H2DEF])
+ 
+ 	AC_SUBST([PYGTK_DEFSDIR])
