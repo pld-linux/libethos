@@ -1,18 +1,28 @@
+#
+# Conditional build
+%bcond_without	apidocs #disable gtk-doc
+#
 %define     _packname ethos
 Summary:	Reusable plugin framework for glib and gtk+
 Name:		libethos
 Version:	0.2.2
-Release:	1
+Release:	2
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://ftp.dronelabs.com/sources/%{_packname}/0.2/%{_packname}-%{version}.tar.gz
 # Source0-md5:	36cf1ef444a224556bba4d441c400300
 URL:		http://git.dronelabs.com/ethos/about/
 Patch0:		%{name}-pyc.patch
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake
 BuildRequires:	gjs-devel
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.7}
+BuildRequires:	intltool
+BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	python-pygobject-devel
 BuildRequires:	python-pygtk-devel
+BuildRequires:	rpm-pythonprov
 BuildRequires:	vala
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -38,28 +48,43 @@ Requires:	pkgconfig
 %description devel
 Header files for libethos library.
 
+%package apidocs
+Summary:	Ethos library API documentation
+Summary(pl.UTF-8):	Dokumentacja API biblioteki Ethos.
+Group:		Documentation
+Requires:	gtk-doc-common
+
+%description apidocs
+Ethos library API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki Ethos.
+
 %prep
 %setup -q -n %{_packname}-%{version}
 %patch0 -p0
 
 %build
-./autogen.sh \
-	--prefix=%{_prefix} \
-	--libdir=%{_libdir} \
-	--disable-static \
+%{__intltoolize}
+%{__libtoolize}
+%{__aclocal} -I m4
+%{__autoconf}
+%{__automake}
+%configure \
 	--enable-introspection \
-	--enable-python \
-	--enable-gtk-doc \
-	--with-html-dir=%{_gtkdocdir}
-
-make
+	--%{?with_apidocs:en}%{!?with_apidocs:dis}able-gtk-doc
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -p -d $RPM_BUILD_ROOT/%{name}-%{version}
-%{__make} install DESTDIR=$RPM_BUILD_ROOT INSTALL='install -p'
 
-find $RPM_BUILD_ROOT -name '*.la' -exec rm -f {} ';'
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	HTML_DIR=%{_gtkdocdir}
+
+%{!?with_apidocs:rm -rf $RPM_BUILD_ROOT%{_gtkdocdir}}
+
+%find_lang %{_packname}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -68,10 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun	-p /sbin/ldconfig
 
-%files
+%files -f %{_packname}.lang
 %defattr(644,root,root,755)
 %doc COPYING AUTHORS README NEWS
-%doc %{_datadir}/doc/gtk-doc/html/ethos/*
 %attr(755,root,root) %{_libdir}/libethos*.so.*
 %dir %{_libdir}/ethos
 %dir %{_libdir}/ethos/plugin-loaders
@@ -82,12 +106,19 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/gtk-2.0/ethos
 %{py_sitedir}/gtk-2.0/_ethos*
 %{_datadir}/ethos/icons/*png
-%{_localedir}/*/LC_MESSAGES/ethos*
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/ethos-1.0
 %{_libdir}/ethos/plugin-loaders/lib*.so
+%{_libdir}/ethos/plugin-loaders/lib*.la
 %{_pkgconfigdir}/ethos*1.0.pc
 %{_libdir}/*.so
+%{_libdir}/*.la
 %{_datadir}/gir-1.0/Ethos-1.0.gir
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/%{_packname}
+%endif
