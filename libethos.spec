@@ -105,7 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pygtk/2.0/defs/ethos*
 %{py_sitedir}/gtk-2.0/ethos
 %{py_sitedir}/gtk-2.0/_ethos*
-%{_datadir}/ethos/icons/*png
+%dir %{_datadir}/ethos/icons/
+%{_datadir}/ethos/icons/*.png
 
 %files devel
 %defattr(644,root,root,755)
