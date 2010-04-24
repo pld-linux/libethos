@@ -5,8 +5,8 @@ Version:	0.2.2
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	http://ftp.dronelabs.com/sources/%{_packname}/%{_packname}-%{version}.tar.bz2
-# Source0-md5:	e72ac76c2bb43c3b304766d907c0b1c2
+Source0:	http://ftp.dronelabs.com/sources/%{_packname}/0.2/%{_packname}-%{version}.tar.gz
+# Source0-md5:	36cf1ef444a224556bba4d441c400300
 URL:		http://git.dronelabs.com/ethos/about/
 Patch0:		%{name}-pyc.patch
 BuildRequires:	gjs-devel
