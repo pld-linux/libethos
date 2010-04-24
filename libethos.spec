@@ -6,7 +6,7 @@
 Summary:	Reusable plugin framework for glib and gtk+
 Name:		libethos
 Version:	0.2.2
-Release:	2
+Release:	3
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://ftp.dronelabs.com/sources/%{_packname}/0.2/%{_packname}-%{version}.tar.gz
@@ -73,7 +73,7 @@ Dokumentacja API biblioteki Ethos.
 %configure \
 	--enable-introspection \
 	--%{?with_apidocs:en}%{!?with_apidocs:dis}able-gtk-doc
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -105,6 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/pygtk/2.0/defs/ethos*
 %{py_sitedir}/gtk-2.0/ethos
 %{py_sitedir}/gtk-2.0/_ethos*
+%dir %{_datadir}/ethos/
 %dir %{_datadir}/ethos/icons/
 %{_datadir}/ethos/icons/*.png
 
