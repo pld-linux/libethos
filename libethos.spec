@@ -19,9 +19,13 @@ URL:		http://git.dronelabs.com/ethos/about/
 Patch0:		%{name}-pyc.patch
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
+BuildRequires:	docbook-dtd412-xml
+BuildRequires:	gettext-devel
 BuildRequires:	gjs-devel
+BuildRequires:	glibc-misc
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.7}
 BuildRequires:	intltool
+BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	python-devel
 BuildRequires:	python-pygobject-devel
