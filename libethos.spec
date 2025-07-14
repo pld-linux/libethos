@@ -73,7 +73,7 @@ Dokumentacja API biblioteki Ethos.
 
 %prep
 %setup -q -n %{packname}-%{version}
-%patch0 -p0
+%patch -P0 -p0
 
 %build
 %{__intltoolize}
